@@ -5,7 +5,10 @@
  */
 package hub_flasher;
 
+import java.io.BufferedReader;
 import java.io.FileFilter;
+import java.io.InputStreamReader;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -36,26 +39,77 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
+        instructionsMainTitle = new javax.swing.JLabel();
+        instruction1 = new javax.swing.JLabel();
+        instruction2 = new javax.swing.JLabel();
+        instruction3 = new javax.swing.JLabel();
+        instruction4 = new javax.swing.JLabel();
+        serverDemo3Button = new javax.swing.JButton();
+        serverQaButton = new javax.swing.JButton();
+        serverUatButton = new javax.swing.JButton();
+        serverFirmwareButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jFileChooser1 = new javax.swing.JFileChooser();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        customFileChooser = new javax.swing.JFileChooser();
+        selectedFilePathTextField = new javax.swing.JTextField();
+        customFlashButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        customTextArea = new javax.swing.JTextArea();
+        jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Software Made By A Hardware Engineer - JW");
         setResizable(false);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel2.setText("How To Flash A Hub");
+        instructionsMainTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        instructionsMainTitle.setText("How To Flash A Hub");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Insert Connector Into Hub");
-        jLabel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "1.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        instruction1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        instruction1.setText("Insert Eleksen Connector into Eleksen Hub");
+        instruction1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "1.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        instruction2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        instruction2.setText("Insert Eleksen Hubstation Cable into computer");
+        instruction2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "2.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        instruction3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        instruction3.setText("Ensure Eleksen Hub is in Hubstation mode");
+        instruction3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "3.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        instruction4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        instruction4.setText("Select the server the Eleksen Hub will connect to below:");
+        instruction4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "4.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+
+        serverDemo3Button.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        serverDemo3Button.setText("Demo 3");
+        serverDemo3Button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverDemo3ButtonActionPerformed(evt);
+            }
+        });
+
+        serverQaButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        serverQaButton.setText("Qa");
+        serverQaButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverQaButtonActionPerformed(evt);
+            }
+        });
+
+        serverUatButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        serverUatButton.setText("UAT");
+        serverUatButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverUatButtonActionPerformed(evt);
+            }
+        });
+
+        serverFirmwareButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        serverFirmwareButton.setText("Firmware");
+        serverFirmwareButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                serverFirmwareButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -63,22 +117,100 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addContainerGap(564, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(serverDemo3Button)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(serverQaButton)
+                        .addGap(61, 61, 61)
+                        .addComponent(serverUatButton))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(instructionsMainTitle)
+                        .addComponent(instruction1)
+                        .addComponent(instruction2)
+                        .addComponent(instruction3)
+                        .addComponent(instruction4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(serverFirmwareButton)
+                .addGap(96, 96, 96))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addComponent(instructionsMainTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(476, Short.MAX_VALUE))
+                .addComponent(instruction1)
+                .addGap(18, 18, 18)
+                .addComponent(instruction2)
+                .addGap(18, 18, 18)
+                .addComponent(instruction3)
+                .addGap(18, 18, 18)
+                .addComponent(instruction4)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(serverDemo3Button)
+                    .addComponent(serverQaButton)
+                    .addComponent(serverUatButton)
+                    .addComponent(serverFirmwareButton))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("HOW TO FLASH ELEKSEN HUB", jPanel2);
+
+        customFileChooser.setDialogTitle("");
+        customFileChooser.setFileHidingEnabled(true);
+        customFileChooser.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Binary File", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        customFileChooser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customFileChooserActionPerformed(evt);
+            }
+        });
+
+        selectedFilePathTextField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected File Path:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
+        selectedFilePathTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectedFilePathTextFieldActionPerformed(evt);
+            }
+        });
+
+        customFlashButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        customFlashButton.setText("Flash!");
+        customFlashButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customFlashButtonActionPerformed(evt);
+            }
+        });
+
+        customTextArea.setColumns(20);
+        customTextArea.setRows(5);
+        jScrollPane1.setViewportView(customTextArea);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(selectedFilePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(customFlashButton, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
+            .addComponent(customFileChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(customFileChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(selectedFilePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(customFlashButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("CUSTOM FIRMWARE LOADING", jPanel1);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -92,60 +224,6 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("HELP", jPanel3);
-
-        jFileChooser1.setDialogTitle("");
-        jFileChooser1.setFileHidingEnabled(true);
-        jFileChooser1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select Binary File", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFileChooser1ActionPerformed(evt);
-            }
-        });
-
-        jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected File Path:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jButton1.setText("Flash!");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE))
-            .addComponent(jScrollPane1)
-            .addComponent(jFileChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("CUSTOM FIRMWARE LOADING", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,24 +240,157 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initOthers(){
-        jFileChooser1.setControlButtonsAreShown(false);
+        customFileChooser.setControlButtonsAreShown(false);
     }
-    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
-        jTextField1.setText(jFileChooser1.getSelectedFile().getAbsolutePath());
-    }//GEN-LAST:event_jFileChooser1ActionPerformed
+    private void customFileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customFileChooserActionPerformed
+        selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());
+        chosenFilePath = customFileChooser.getSelectedFile().getAbsolutePath();
+        System.out.println(chosenFilePath);
+    }//GEN-LAST:event_customFileChooserActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void selectedFilePathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectedFilePathTextFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_selectedFilePathTextFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            Esptool.eraseFlash();
-        } catch (Exception ex) {
+    private void customFlashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customFlashButtonActionPerformed
+        
+        try
+        {
+            selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());
+            chosenFilePath = customFileChooser.getSelectedFile().getAbsolutePath();
+            System.out.println("Chosen file: " + chosenFilePath);
+            customFlashButton.setText("Erasing Flash...");
+            customFlashButton.update(customFlashButton.getGraphics());
+        }
+        catch (NullPointerException ex)
+        {
+            Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("null pointer exception");
+            customFlashButton.setText("No file chosen!");
+            customFlashButton.update(customFlashButton.getGraphics());
+        }
+        
+        try
+        {
+            
+            if(eraseFlash())
+            {
+                customFlashButton.setText("Writing Flash...");
+                customFlashButton.update(customFlashButton.getGraphics());
+            }
+            else
+            {
+                customFlashButton.setText("Erase Time Out, Retry");
+                customFlashButton.update(customFlashButton.getGraphics());
+            }
+//            try
+//            {
+//                writeFlash();
+//            }
+//            catch (Exception ex)
+//            {
+//                Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+        }
+        catch (Exception ex) {
             Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_customFlashButtonActionPerformed
 
+    private void serverDemo3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverDemo3ButtonActionPerformed
+        
+        try
+        {
+            eraseFlash();
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }//GEN-LAST:event_serverDemo3ButtonActionPerformed
+
+    private void serverQaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverQaButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverQaButtonActionPerformed
+
+    private void serverUatButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverUatButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverUatButtonActionPerformed
+
+    private void serverFirmwareButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverFirmwareButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_serverFirmwareButtonActionPerformed
+
+    
+    public boolean eraseFlash() throws Exception
+    {
+        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "esptool.py erase_flash");
+            //"cmd.exe", "/c", "esptool.py erase_flash"
+                //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
+        builder.redirectErrorStream(true);
+        Process eraseProcess = builder.start();
+
+        BufferedReader r = new BufferedReader(new InputStreamReader(eraseProcess.getInputStream()));
+        String line;
+
+        while (true)
+        {
+            if (!eraseProcess.waitFor(10, TimeUnit.SECONDS))
+            {
+                //customFlashButton.setText("Erase Time Out, Retry");
+                System.out.println("Timed out");
+                eraseProcess.destroyForcibly();
+                break;
+            }
+            line = r.readLine();
+            
+            if (line == null)
+            { 
+                //break;
+                return true;
+            }
+            System.out.println(line);
+            customTextArea.append(line + "\r\n");
+            customTextArea.update(customTextArea.getGraphics());
+        }
+        return false;
+    }
+    
+    public boolean writeFlashCustom() throws Exception
+    {
+       ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "esptool.py write_flash");
+            //"cmd.exe", "/c", "esptool.py erase_flash"
+                //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
+        builder.redirectErrorStream(true);
+        Process flashCustomProcess = builder.start();
+        
+        BufferedReader r = new BufferedReader(new InputStreamReader(flashCustomProcess.getInputStream()));
+        String line;
+        
+        while (true)
+        {
+            if (!flashCustomProcess.waitFor(15, TimeUnit.SECONDS))
+            {
+                //customFlashButton.setText("Erase Time Out, Retry");
+                System.out.println("Timed out");
+                flashCustomProcess.destroyForcibly();
+                break;
+            }
+            line = r.readLine();
+            
+            if (line == null)
+            { 
+                //break;
+                return true;
+            }
+            System.out.println(line);
+            customTextArea.append(line + "\r\n");
+            customTextArea.update(customTextArea.getGraphics());
+        }
+        return false;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -214,22 +425,26 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JFileChooser jFileChooser1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JFileChooser customFileChooser;
+    private javax.swing.JButton customFlashButton;
+    private javax.swing.JTextArea customTextArea;
+    private javax.swing.JLabel instruction1;
+    private javax.swing.JLabel instruction2;
+    private javax.swing.JLabel instruction3;
+    private javax.swing.JLabel instruction4;
+    private javax.swing.JLabel instructionsMainTitle;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField selectedFilePathTextField;
+    private javax.swing.JButton serverDemo3Button;
+    private javax.swing.JButton serverFirmwareButton;
+    private javax.swing.JButton serverQaButton;
+    private javax.swing.JButton serverUatButton;
     // End of variables declaration//GEN-END:variables
-
-    private FileFilter NewFileFilter(String image_Files, String[] string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    private String chosenFilePath;
 }
