@@ -25,7 +25,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     public FLASHER_JFRAME() {
         initComponents();
         initOthers();
-        
+
     }
 
     /**
@@ -167,12 +167,8 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             }
         });
 
+        selectedFilePathTextField.setEditable(false);
         selectedFilePathTextField.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected File Path:", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
-        selectedFilePathTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectedFilePathTextFieldActionPerformed(evt);
-            }
-        });
 
         customFlashButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         customFlashButton.setText("Flash!");
@@ -239,73 +235,56 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void initOthers(){
+    private void initOthers() {
         customFileChooser.setControlButtonsAreShown(false);
     }
     private void customFileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customFileChooserActionPerformed
         selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());
         chosenFilePath = customFileChooser.getSelectedFile().getAbsolutePath();
-        System.out.println(chosenFilePath);
+        //System.out.println(chosenFilePath);
     }//GEN-LAST:event_customFileChooserActionPerformed
 
-    private void selectedFilePathTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectedFilePathTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectedFilePathTextFieldActionPerformed
-
     private void customFlashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customFlashButtonActionPerformed
-        
-        try
-        {
-            selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());
-            chosenFilePath = customFileChooser.getSelectedFile().getAbsolutePath();
-            System.out.println("Chosen file: " + chosenFilePath);
-            customFlashButton.setText("Erasing Flash...");
-            customFlashButton.update(customFlashButton.getGraphics());
-        }
-        catch (NullPointerException ex)
-        {
+
+        try {
+            selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());   // sets the text of the selectedFilePathTextField to the directory of the file chosen
+            chosenFilePath = customFileChooser.getSelectedFile().getAbsolutePath();                     // sets the chosenFilePath string as the directory of the file
+            //System.out.println("Chosen file: " + chosenFilePath);
+            
+            
+            try {
+
+                if (eraseFlash()) {
+                    
+
+                    try {
+                        writeFlashCustom();
+                    } catch (Exception ex) {
+                        Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    customFlashButton.setText("Erase Time Out, Retry");
+                    customFlashButton.update(customFlashButton.getGraphics());
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (NullPointerException ex) {
             Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("null pointer exception");
             customFlashButton.setText("No file chosen!");
             customFlashButton.update(customFlashButton.getGraphics());
         }
-        
-        try
-        {
-            
-            if(eraseFlash())
-            {
-                customFlashButton.setText("Writing Flash...");
-                customFlashButton.update(customFlashButton.getGraphics());
-            }
-            else
-            {
-                customFlashButton.setText("Erase Time Out, Retry");
-                customFlashButton.update(customFlashButton.getGraphics());
-            }
-//            try
-//            {
-//                writeFlash();
-//            }
-//            catch (Exception ex)
-//            {
-//                Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-        }
-        catch (Exception ex) {
-            Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+
     }//GEN-LAST:event_customFlashButtonActionPerformed
 
     private void serverDemo3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverDemo3ButtonActionPerformed
-        
-        try
-        {
+
+        try {
             eraseFlash();
-        }
-        catch (Exception ex)
-        {
-            
+        } catch (Exception ex) {
+
         }
     }//GEN-LAST:event_serverDemo3ButtonActionPerformed
 
@@ -321,31 +300,30 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_serverFirmwareButtonActionPerformed
 
-    
-    public boolean eraseFlash() throws Exception
-    {
+    public boolean eraseFlash() throws Exception {
+        
+        customFlashButton.setText("Erasing Flash...");
+        customFlashButton.update(customFlashButton.getGraphics());
+        
         ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "esptool.py erase_flash");
-            //"cmd.exe", "/c", "esptool.py erase_flash"
-                //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
+        //"cmd.exe", "/c", "esptool.py erase_flash"
+        //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
         builder.redirectErrorStream(true);
         Process eraseProcess = builder.start();
 
         BufferedReader r = new BufferedReader(new InputStreamReader(eraseProcess.getInputStream()));
         String line;
 
-        while (true)
-        {
-            if (!eraseProcess.waitFor(10, TimeUnit.SECONDS))
-            {
+        while (true) {
+            if (!eraseProcess.waitFor(10, TimeUnit.SECONDS)) {
                 //customFlashButton.setText("Erase Time Out, Retry");
                 System.out.println("Timed out");
                 eraseProcess.destroyForcibly();
                 break;
             }
             line = r.readLine();
-            
-            if (line == null)
-            { 
+
+            if (line == null) {
                 //break;
                 return true;
             }
@@ -355,33 +333,46 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         }
         return false;
     }
-    
-    public boolean writeFlashCustom() throws Exception
-    {
-       ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "esptool.py write_flash");
-            //"cmd.exe", "/c", "esptool.py erase_flash"
-                //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
+
+    public boolean writeFlashCustom() throws Exception {
+        
+        customFlashButton.setText("Writing Flash...");              // Update button text
+        customFlashButton.update(customFlashButton.getGraphics());  // Show updated button text
+        
+        String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
+        //System.out.println("current dir = " + dir);
+
+        //customTextArea.append(dir);
+        //customTextArea.update(customTextArea.getGraphics());
+        ProcessBuilder builder = new ProcessBuilder(
+                "cmd.exe", "/c", "esptool.py -b 1152000 write_flash  0x1000 " + dir
+                + "/wtl-fw-Neil_PreRel_015_fix1_QA/bootloader.bin 0x8000 " + dir
+                + "/wtl-fw-Neil_PreRel_015_fix1_QA/partitions_two_ota.bin 0x10000 " + dir
+                + "/wtl-fw-Neil_PreRel_015_fix1_QA/wtl-firmware.bin");
         builder.redirectErrorStream(true);
         Process flashCustomProcess = builder.start();
-        
+
         BufferedReader r = new BufferedReader(new InputStreamReader(flashCustomProcess.getInputStream()));
         String line;
-        
-        while (true)
-        {
-            if (!flashCustomProcess.waitFor(15, TimeUnit.SECONDS))
-            {
+
+        while (true) {
+            if (!flashCustomProcess.waitFor(20, TimeUnit.SECONDS)) {
                 //customFlashButton.setText("Erase Time Out, Retry");
                 System.out.println("Timed out");
                 flashCustomProcess.destroyForcibly();
                 break;
             }
             line = r.readLine();
-            
-            if (line == null)
-            { 
+
+            if (line == null) {
                 //break;
                 return true;
+            }
+            else if (line.contains("error"))
+            {
+                customFlashButton.setText("Error occurred, Retry");
+                customFlashButton.update(customFlashButton.getGraphics());
+                return false;
             }
             System.out.println(line);
             customTextArea.append(line + "\r\n");
@@ -389,8 +380,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         }
         return false;
     }
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -425,7 +415,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser customFileChooser;
     private javax.swing.JButton customFlashButton;

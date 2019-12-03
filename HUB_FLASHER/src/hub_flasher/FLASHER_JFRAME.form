@@ -271,6 +271,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="selectedFilePathTextField">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder title="Selected File Path:">
@@ -279,9 +280,6 @@
                   </Border>
                 </Property>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="selectedFilePathTextFieldActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="customFlashButton">
               <Properties>
