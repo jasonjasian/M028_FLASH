@@ -256,16 +256,12 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
 
                 if (eraseFlash()) {
                     
-
                     try {
-                        writeFlashCustom();
+                        writeFlashCustom(chosenFilePath);
                     } catch (Exception ex) {
                         Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    customFlashButton.setText("Erase Time Out, Retry");
-                    customFlashButton.update(customFlashButton.getGraphics());
-                }
+                } else{}
             } catch (Exception ex) {
                 Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -282,12 +278,60 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     private void serverDemo3ButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverDemo3ButtonActionPerformed
 
         try {
-            eraseFlash();
+            
+            if(eraseFlash())
+            {
+                try{
+                writeDemo3();
+                }
+                catch (Exception ex)
+                {
+                    Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         } catch (Exception ex) {
-
+            Logger.getLogger(FLASHER_JFRAME.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_serverDemo3ButtonActionPerformed
 
+    private void writeDemo3() throws Exception {
+        
+        serverDemo3Button.setText("Writing Build...");
+        serverDemo3Button.update(serverDemo3Button.getGraphics());
+
+        String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
+        
+        ProcessBuilder builder = new ProcessBuilder(
+                "cmd.exe", "/c", "esptool.py -b 1152000 write_flash 0x1000 " + dir
+                + "\\wtl-fw-Neil_PreRel_015_fix1_QA\\bootloader.bin 0x8000 " + dir
+                + "\\wtl-fw-Neil_PreRel_015_fix1_QA\\partitions_two_ota.bin 0x10000 " + dir 
+                + "\\wtl-fw-Neil_PreRel_015_fix1_QA\\wtl-firmware.bin"); 
+        //);
+                //+ "\\wtl-fw-Neil_PreRel_015_fix1_QA\\wtl-firmware.bin");
+        
+        builder.redirectErrorStream(true);
+        Process flashDemo3Process = builder.start();
+        
+        BufferedReader r = new BufferedReader(new InputStreamReader(flashDemo3Process.getInputStream()));
+        String line;
+        
+        while (true) {
+
+            line = r.readLine();
+            System.out.println(line);
+
+            if (line == null) {
+                break;
+            }
+            else if (line.contains("error"))
+            {
+                customFlashButton.setText("Error occurred, Retry");
+                customFlashButton.update(customFlashButton.getGraphics());
+                break;
+            }
+
+        }
+    }
     private void serverQaButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_serverQaButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_serverQaButtonActionPerformed
@@ -302,41 +346,46 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
 
     public boolean eraseFlash() throws Exception {
         
-        customFlashButton.setText("Erasing Flash...");
+        customTextArea.setText(null);
+        customTextArea.update(customTextArea.getGraphics());
+        
+        customFlashButton.setText("Erasing Previous Build...");
         customFlashButton.update(customFlashButton.getGraphics());
         
         ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", "esptool.py erase_flash");
-        //"cmd.exe", "/c", "esptool.py erase_flash"
-        //"cmd.exe", "/c", "D: && cd installed software\\python\\lib\\site-packages && esptool.py erase_flash"
         builder.redirectErrorStream(true);
         Process eraseProcess = builder.start();
-
+        
+//        if (!eraseProcess.waitFor(15, TimeUnit.SECONDS)) {
+//            customFlashButton.setText("Erase Time Out, Retry");
+//            customFlashButton.update(customFlashButton.getGraphics());
+//            System.out.println("Timed out");
+//            eraseProcess.destroyForcibly();
+//            return false;
+//        }
         BufferedReader r = new BufferedReader(new InputStreamReader(eraseProcess.getInputStream()));
         String line;
 
         while (true) {
-            if (!eraseProcess.waitFor(10, TimeUnit.SECONDS)) {
-                //customFlashButton.setText("Erase Time Out, Retry");
-                System.out.println("Timed out");
-                eraseProcess.destroyForcibly();
-                break;
-            }
-            line = r.readLine();
+            
+            line = r.readLine();        // gets line of response from cmd line
+            System.out.println(line);   // prints that line of response
 
             if (line == null) {
                 //break;
                 return true;
             }
-            System.out.println(line);
             customTextArea.append(line + "\r\n");
             customTextArea.update(customTextArea.getGraphics());
         }
-        return false;
     }
 
-    public boolean writeFlashCustom() throws Exception {
+    public boolean writeFlashCustom(String chosenFilePath) throws Exception {
+        System.out.println(chosenFilePath);
+        customTextArea.append(chosenFilePath + "\r\n");
+        customTextArea.update(customTextArea.getGraphics());
         
-        customFlashButton.setText("Writing Flash...");              // Update button text
+        customFlashButton.setText("Writing Selected Build...");              // Update button text
         customFlashButton.update(customFlashButton.getGraphics());  // Show updated button text
         
         String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
@@ -345,10 +394,12 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         //customTextArea.append(dir);
         //customTextArea.update(customTextArea.getGraphics());
         ProcessBuilder builder = new ProcessBuilder(
-                "cmd.exe", "/c", "esptool.py -b 1152000 write_flash  0x1000 " + dir
-                + "/wtl-fw-Neil_PreRel_015_fix1_QA/bootloader.bin 0x8000 " + dir
-                + "/wtl-fw-Neil_PreRel_015_fix1_QA/partitions_two_ota.bin 0x10000 " + dir
-                + "/wtl-fw-Neil_PreRel_015_fix1_QA/wtl-firmware.bin");
+                "cmd.exe", "/c", "esptool.py -b 1152000 write_flash 0x1000 " + dir
+                + "\\wtl-fw-Neil_PreRel_015_fix1_QA\\bootloader.bin 0x8000 " + dir
+                + "\\wtl-fw-Neil_PreRel_015_fix1_QA\\partitions_two_ota.bin 0x10000 " + chosenFilePath); //
+        //);
+                //+ "\\wtl-fw-Neil_PreRel_015_fix1_QA\\wtl-firmware.bin");
+        
         builder.redirectErrorStream(true);
         Process flashCustomProcess = builder.start();
 
@@ -356,14 +407,17 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         String line;
 
         while (true) {
-            if (!flashCustomProcess.waitFor(20, TimeUnit.SECONDS)) {
-                //customFlashButton.setText("Erase Time Out, Retry");
-                System.out.println("Timed out");
-                flashCustomProcess.destroyForcibly();
-                break;
-            }
+//            if (!flashCustomProcess.waitFor(20, TimeUnit.SECONDS)) {
+//                //customFlashButton.setText("Erase Time Out, Retry");
+//                System.out.println("Timed out");
+//                flashCustomProcess.destroyForcibly();
+//                break;
+//            }
             line = r.readLine();
-
+            System.out.println(line);
+            customTextArea.append(line + "\r\n");
+            customTextArea.update(customTextArea.getGraphics());
+            
             if (line == null) {
                 //break;
                 return true;
@@ -374,11 +428,8 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
                 customFlashButton.update(customFlashButton.getGraphics());
                 return false;
             }
-            System.out.println(line);
-            customTextArea.append(line + "\r\n");
-            customTextArea.update(customTextArea.getGraphics());
         }
-        return false;
+        //return false;
     }
 
     /**
