@@ -54,22 +54,15 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="instructionNote" min="-2" max="-2" attributes="0"/>
-                                  <Component id="instruction1" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="serverDemo3Button" min="-2" pref="200" max="-2" attributes="0"/>
+                              <Component id="serverDemo3Button" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="serverQaButton" min="-2" pref="200" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="serverUatButton" min="-2" pref="200" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
                               <Component id="serverFirmwareButton" min="-2" pref="200" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="251" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -77,13 +70,16 @@
                                   <Component id="instructionsMainTitle" min="-2" max="-2" attributes="0"/>
                                   <Component id="instruction2" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="instruction3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="instruction4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="versionName" min="-2" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="instruction4" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="-2" pref="352" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="615" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="instructionNote" min="-2" max="-2" attributes="0"/>
+                                  <Component id="instruction1" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -103,10 +99,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="instruction3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="instruction4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="versionName" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="instruction4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="serverDemo3Button" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -163,7 +156,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Ensure Eleksen Hub is in Hubstation mode"/>
+                <Property name="text" type="java.lang.String" value="Ensure Eleksen Hub is in Hubstation mode (Charging symbol on screen)"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder justification="2" title="3.">
@@ -178,7 +171,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="18" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Select the server the Eleksen Hub will connect to below:"/>
+                <Property name="text" type="java.lang.String" value="Click the &quot;T2S&quot; button to start firmware update"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
                     <TitledBorder justification="2" title="4.">
@@ -193,7 +186,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Tahoma" size="36" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Demo 3"/>
+                <Property name="text" type="java.lang.String" value="T2S"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serverDemo3ButtonActionPerformed"/>
@@ -229,6 +222,7 @@
                   <Font name="Tahoma" size="36" style="0"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Firmware"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="serverFirmwareButtonActionPerformed"/>
@@ -247,14 +241,6 @@
                     </TitledBorder>
                   </Border>
                 </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="versionName">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="18" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Current Stable Version: 015_fix3"/>
               </Properties>
             </Component>
           </SubComponents>

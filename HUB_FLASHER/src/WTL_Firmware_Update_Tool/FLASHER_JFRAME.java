@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package hub_flasher;
+package WTL_Firmware_Update_Tool;
 
 import java.io.BufferedReader;
 import java.io.FileFilter;
@@ -23,8 +23,8 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
      * Creates new form FLASHER_JFRAME
      */
     public FLASHER_JFRAME() {
-        initComponents();
-        initOthers();
+        initComponents();   // auto-generated function to init components
+        initOthers();       // call function to initialise other components
 
     }
 
@@ -49,7 +49,6 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         serverUatButton = new javax.swing.JButton();
         serverFirmwareButton = new javax.swing.JButton();
         instructionNote = new javax.swing.JLabel();
-        versionName = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         customFileChooser = new javax.swing.JFileChooser();
         selectedFilePathTextField = new javax.swing.JTextField();
@@ -82,15 +81,15 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         instruction2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "2.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         instruction3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        instruction3.setText("Ensure Eleksen Hub is in Hubstation mode");
+        instruction3.setText("Ensure Eleksen Hub is in Hubstation mode (Charging symbol on screen)");
         instruction3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "3.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         instruction4.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        instruction4.setText("Select the server the Eleksen Hub will connect to below:");
+        instruction4.setText("Click the \"T2S\" button to start firmware update");
         instruction4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "4.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
         serverDemo3Button.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        serverDemo3Button.setText("Demo 3");
+        serverDemo3Button.setText("T2S");
         serverDemo3Button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 serverDemo3ButtonActionPerformed(evt);
@@ -117,6 +116,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
 
         serverFirmwareButton.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         serverFirmwareButton.setText("Firmware");
+        serverFirmwareButton.setEnabled(false);
         serverFirmwareButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 serverFirmwareButtonActionPerformed(evt);
@@ -127,9 +127,6 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         instructionNote.setText("Ensure only one Eleksen Hub is connected to the computer");
         instructionNote.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Note.", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 18))); // NOI18N
 
-        versionName.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        versionName.setText("Current Stable Version: 015_fix3");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -137,31 +134,28 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(instructionNote)
-                            .addComponent(instruction1))
-                        .addGap(0, 0, 0))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(serverDemo3Button, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(serverDemo3Button, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(serverQaButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(serverUatButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(serverFirmwareButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(251, 251, 251))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(instructionsMainTitle)
                             .addComponent(instruction2)
                             .addComponent(instruction3)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(instruction4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(versionName)))
-                        .addGap(352, 352, 352))))
+                            .addComponent(instruction4))
+                        .addGap(615, 615, 615))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(instructionNote)
+                            .addComponent(instruction1))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,9 +171,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(instruction3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(instruction4)
-                    .addComponent(versionName))
+                .addComponent(instruction4)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(serverDemo3Button)
@@ -323,6 +315,10 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     private void initOthers() {
         customFileChooser.setControlButtonsAreShown(false);
         prerequisiteTextArea.setEditable(false);
+        jTabbedPane1.setEnabled(false);
+        serverQaButton.setVisible(false);
+        serverFirmwareButton.setVisible(false);
+        serverUatButton.setVisible(false);
     }
     private void customFileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customFileChooserActionPerformed
         selectedFilePathTextField.setText(customFileChooser.getSelectedFile().getAbsolutePath());
@@ -406,7 +402,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
 
     private void writeDemo3() throws Exception {
         
-        serverDemo3Button.setText("Writing...");
+        serverDemo3Button.setText("Updating Firmware...");
         serverDemo3Button.update(serverDemo3Button.getGraphics());
 
         String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
@@ -415,7 +411,9 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
                 "cmd.exe", "/c", "esptool.py -b 1152000 write_flash 0x1000 " + dir
                 + "\\015_fix3\\015_fix3-demo3\\bootloader_015_fix3-demo3.bin 0x8000 " + dir  //C:\Users\chinn\Documents\git_repositories\Hub_Flasher\HUB_FLASHER\015_fix3\015_fix3-demo3
                 + "\\015_fix3\\015_fix3-demo3\\partitions_two_ota_015_fix3-demo3.bin 0x10000 " + dir 
-                + "\\015_fix3\\015_fix3-demo3\\wtl-firmware_015_fix3-demo3.bin"); 
+                        
+                + "\\015_fix3\\015_fix3-demo3\\wtl-firmware-16.32.0514-ESS-PWS-T2S.m.bin");    // GKD_T2S SPECIAL
+                //+ "\\015_fix3\\015_fix3-demo3\\wtl-firmware_015_fix3-demo3.bin"); NORMAL USAGE
         //);
                 //+ "\\wtl-fw-Neil_PreRel_015_fix1_QA\\wtl-firmware.bin");
         
@@ -431,7 +429,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
             System.out.println(line);
 
             if (line == null) {
-                serverDemo3Button.setText("Demo 3");
+                serverDemo3Button.setText("T2S");
                 serverDemo3Button.update(serverDemo3Button.getGraphics());
                 break;
             }
@@ -510,7 +508,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         if (!eraseProcess.waitFor(15, TimeUnit.SECONDS)) {
             
             switch(server_type){
-            case 0: serverDemo3Button.setText("Time Out Error!");
+            case 0: serverDemo3Button.setText("Retry");
                     serverDemo3Button.update(serverDemo3Button.getGraphics());
                     break;
             case 1: break;
@@ -665,7 +663,6 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     private javax.swing.JButton serverFirmwareButton;
     private javax.swing.JButton serverQaButton;
     private javax.swing.JButton serverUatButton;
-    private javax.swing.JLabel versionName;
     // End of variables declaration//GEN-END:variables
     private String chosenFilePath;
 }
