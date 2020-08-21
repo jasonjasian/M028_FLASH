@@ -315,7 +315,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
     private void initOthers() {
         customFileChooser.setControlButtonsAreShown(false);
         prerequisiteTextArea.setEditable(false);
-        jTabbedPane1.setEnabled(false);
+        //jTabbedPane1.setEnabled(false);
         serverQaButton.setVisible(false);
         serverFirmwareButton.setVisible(false);
         serverUatButton.setVisible(false);
@@ -406,7 +406,7 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         serverDemo3Button.update(serverDemo3Button.getGraphics());
 
         String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
-        
+
         ProcessBuilder builder = new ProcessBuilder(
                 "cmd.exe", "/c", "esptool.py -b 1152000 write_flash 0x1000 " + dir
                 + "\\015_fix3\\015_fix3-demo3\\bootloader_015_fix3-demo3.bin 0x8000 " + dir  //C:\Users\chinn\Documents\git_repositories\Hub_Flasher\HUB_FLASHER\015_fix3\015_fix3-demo3
@@ -557,6 +557,8 @@ public class FLASHER_JFRAME extends javax.swing.JFrame {
         
         String dir = System.getProperty("user.dir"); // get the directory up until the dist folder, this will be used for esptool to get file location correct
         //System.out.println("current dir = " + dir);
+        
+        customTextArea.append("DIR: " + dir);
 
         //customTextArea.append(dir);
         //customTextArea.update(customTextArea.getGraphics());
